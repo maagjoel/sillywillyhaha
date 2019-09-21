@@ -1,14 +1,19 @@
 const SHA256 = require('crypto-js/sha256');
-
+/**
+ * Creating a transaction class that will contain
+ * data on the person voting and who they are voting for
+ */
+class Transaction{
+    
+}
 /**
  * Creating a Block class where voting information will be encrypted using
 the SHA256 algorithm
  */
 class Block{
-    constructor(index, timestamp, data, previousHash = ''){
-        this.index = index; //the index of the block in the blockchain array
+    constructor( timestamp, transactions, previousHash = ''){
         this.timestamp = timestamp; //the date the vote was made
-        this.data = data; //data about the vote (who voted, who they voted for)
+        this.transactions = transactions; //data about the vote (who voted, who they voted for)
         this.previousHash = previousHash; //The hash of the previous block in the chain
         this.hash = this.calculateHash(); //the hash of the current block in the chain
         this.nonce = 0; //number that can be changed so new hashes can be mined
@@ -38,13 +43,13 @@ class Block{
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock]; //The array for blocks to be stored in
-        this.difficulty = 2; //The # of zeroes you want preceding the hashes
+        this.difficulty = 4; //The # of zeroes you want preceding the hashes
     }
     /**
      * Creates the first block in the block chain
      */
     createGenesisBlock(){
-        return new Block(0, "01/01/2020", "Genesis Block","0");
+        return new Block( "01/01/2020", "Genesis Block","0");
     }
     /**
      * Returns the most recently created block in the block chain
@@ -58,7 +63,8 @@ class Blockchain{
      */
     addBlock(newBlock){
         newBlock.previousHash = this.getLatestBlock().hash; //assigns the current block's value to the previous hash of the new block being created
-        newBlock.hash = newBlock.calculateHash();  //assigns a hash to the new block in the block chain
+        newBlock.mineBlock(this.difficulty)//Assigns a hash to the block being added with specified # of zeroes
+        //newBlock.hash = newBlock.calculateHash();  //assigns a hash to the new block in the block chain
         this.chain.push(newBlock); //adds the new block to the block chain array
     }
     /**
@@ -85,14 +91,7 @@ class Blockchain{
 }
 
 let votingProcess = new Blockchain(); 
-votingProcess.addBlock(new Block(1,"10/07/2019",{amount: 4}))
-votingProcess.addBlock(new Block(2,"10/10/2019",{amount: 10}))
 
-//console.log(JSON.stringify(votingProcess, null, 4));
 
-console.log('Is blockchain valid? ' + votingProcess.isChainValid());
 
-votingProcess.chain[1].data = { amount: 100};
-votingProcess.chain[1].hash = votingProcess.chain[1].calculateHash();
 
-console.log('Is blockchain valid? ' + votingProcess.isChainValid());
