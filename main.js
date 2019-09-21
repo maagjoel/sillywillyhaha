@@ -4,7 +4,11 @@ const SHA256 = require('crypto-js/sha256');
  * data on the person voting and who they are voting for
  */
 class Transaction{
-    
+    constructor(fromAddress, toAddress, amount){
+        this.fromAddress = fromAddress;
+        this.toAddress = toaddress;
+        this.amount = amount;
+    }
 }
 /**
  * Creating a Block class where voting information will be encrypted using
@@ -43,7 +47,9 @@ class Block{
 class Blockchain{
     constructor(){
         this.chain = [this.createGenesisBlock]; //The array for blocks to be stored in
-        this.difficulty = 4; //The # of zeroes you want preceding the hashes
+        this.difficulty = 2; //The # of zeroes you want preceding the hashes
+        this.pendingTransactions = [];
+        this.miningReward = 100;
     }
     /**
      * Creates the first block in the block chain
@@ -66,6 +72,12 @@ class Blockchain{
         newBlock.mineBlock(this.difficulty)//Assigns a hash to the block being added with specified # of zeroes
         //newBlock.hash = newBlock.calculateHash();  //assigns a hash to the new block in the block chain
         this.chain.push(newBlock); //adds the new block to the block chain array
+    }
+    /**
+     * This will replace the addBlock method
+     */
+    minePendingTransactions(miningRewardAddress){
+        let block = new Block()
     }
     /**
      * Checks that each block in the blockchain is valid by ensuring the
