@@ -1,0 +1,19 @@
+{
+  "name": "distributed-voting-ledger",
+  "version": "1.0.0",
+  "description": "blockchain for voting",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carninojo15/Distributed-Voting-Ledger.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carninojo15/Distributed-Voting-Ledger/issues"
+  },
+  "homepage": "https://github.com/carninojo15/Distributed-Voting-Ledger#readme"
+}
