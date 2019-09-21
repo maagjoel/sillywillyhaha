@@ -6,7 +6,7 @@ const SHA256 = require('crypto-js/sha256');
 class Transaction{
     constructor(fromAddress, toAddress, amount){
         this.fromAddress = fromAddress;
-        this.toAddress = toaddress;
+        this.toAddress = toAddress;
         this.amount = amount;
     }
 }
@@ -38,7 +38,7 @@ class Block{
             this.hash = this.calculateHash();
         }
 
-        console.log("Hash mined: " + this.hash);
+        console.log("BLock mined: " + this.hash);
     }
 }
 /**
@@ -67,17 +67,38 @@ class Blockchain{
      * Adds a new block to the blockchain 
      * @param {The block  to be added into the block chain array} newBlock 
      */
-    addBlock(newBlock){
-        newBlock.previousHash = this.getLatestBlock().hash; //assigns the current block's value to the previous hash of the new block being created
-        newBlock.mineBlock(this.difficulty)//Assigns a hash to the block being added with specified # of zeroes
-        //newBlock.hash = newBlock.calculateHash();  //assigns a hash to the new block in the block chain
-        this.chain.push(newBlock); //adds the new block to the block chain array
-    }
+    
     /**
      * This will replace the addBlock method
      */
     minePendingTransactions(miningRewardAddress){
-        let block = new Block()
+        let block = new Block(Date.now(), this.pendingTransactions);
+        block.mineBlock(this.difficulty);
+
+        console.log('Block successfully mined!');
+        this.chain.push(block);
+
+        this.pendingTransactions = [
+            new Transaction(null,miningRewardAddress, this.miningReward)
+        ];
+    }
+
+    createTransaction(transaction){
+        this.pendingTransactions.push(transaction);
+    }
+
+    getBalanceOfAddress(address){
+        let balance = 0;
+
+        for(const block of this.chain){
+            for(const trans of block.transactions){
+                if(trans.fromAddress ===address){
+                    balance -= trans.amount;
+                }
+                if(trans.toAddress === address)
+                    balance +=trans.amount;
+            }
+        }
     }
     /**
      * Checks that each block in the blockchain is valid by ensuring the
@@ -103,6 +124,13 @@ class Blockchain{
 }
 
 let votingProcess = new Blockchain(); 
+votingProcess.createTransaction(new Transaction('address1', 'address2', 100));
+votingProcess.createTransaction(new Transaction('address2', 'address1', 100));
+
+console.log('\n Starting the miner.');
+votingProcess.minePendingTransactions('xaviers-address');
+
+console.log('\nBalance of xavier is', votingProcess.getBalanceOfAddress('xaviers-address'));
 
 
 
