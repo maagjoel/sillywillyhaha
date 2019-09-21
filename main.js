@@ -1,5 +1,14 @@
 const SHA256 = require('crypto-js/sha256');
 
+// NEW COMMIT!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+
+
+
 /**
  * Creating a Block class where voting information will be encrypted using
 the SHA256 algorithm
