@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/carninojo15/Distributed-Voting-Ledger/issues"
   },
-  "homepage": "https://github.com/carninojo15/Distributed-Voting-Ledger#readme"
+  "homepage": "https://github.com/carninojo15/Distributed-Voting-Ledger#readme",
+  "dependencies": {
+    "elliptic": "^6.5.1"
+  }
 }
